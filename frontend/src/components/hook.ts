@@ -12,7 +12,7 @@ export function useContent(){
 
 
     async function getDream() {
-        const res= await axios.get('http://localhost:3000/user/getDream',{
+        const res= await axios.get('https://dream.dillaxadhi.com/api/user/getDream',{
             withCredentials:true
         })
 
