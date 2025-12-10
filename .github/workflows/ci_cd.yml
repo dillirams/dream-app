@@ -22,6 +22,12 @@ jobs:
       - name: Deploy to server
         run: |
           ssh -o StrictHostKeyChecking=no -i ssh_key root@139.59.45.219 << 'EOF'
+           # Load NVM (IMPORTANT FIX)
+            export NVM_DIR="/root/.nvm"
+            source "$NVM_DIR/nvm.sh"
+            nvm use 24
+
+            
             cd dream-app
 
             git reset --hard
