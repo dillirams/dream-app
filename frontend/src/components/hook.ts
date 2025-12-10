@@ -2,11 +2,6 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 
-interface contentType{
-    title:string,
-    content:string
-}
-
 export function useContent(){
     const [content, setContent]=useState([])
 

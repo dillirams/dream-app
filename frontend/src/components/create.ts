@@ -6,7 +6,7 @@ interface Zustype{
 }
 
 
-export const useDreamStore= create<Zustype>((set, get)=>({
+export const useDreamStore= create<Zustype>((set)=>({
     model:false,
     setModel:(bol)=>set({model:bol})
 }))

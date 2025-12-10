@@ -4,7 +4,7 @@ import axios from "axios";
 import { useDreamStore } from "./create";
 
 export function Model() {
-  const { model, setModel } = useDreamStore();
+  const { setModel } = useDreamStore();
     //@ts-ignore
   const titleRef = useRef<any>();
     //@ts-ignore

@@ -1,0 +1,42 @@
+name: dream-app-deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deployment to VM
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up SSH key
+        run: |
+          echo "${{ secrets.SSH_KEY }}" > ssh_key
+          chmod 600 ssh_key
+
+      - name: Deploy to server
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ssh_key root@139.59.45.219 << 'EOF'
+            cd dream-app
+
+            git pull
+
+            # BACKEND
+            cd backend
+            npm install
+            npm run build
+            DATABASE_URL='${{ secrets.DATABASE_URL }}' \
+            JWT_SECRET='${{ secrets.JWT_SECRET }}' \
+            pm2 restart dream-backend
+
+            # FRONTEND
+            cd ../frontend
+            npm install
+            npm run build
+            pm2 restart dream-frontend
+          EOF
