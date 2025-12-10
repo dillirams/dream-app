@@ -93,6 +93,10 @@ export function Dashboard() {
           </div>
         )}
       </main>
+      <div className="flex justify-center items-center mt-64 font-semibold text-lg">
+        <p>Developed by Dilliram Adhikari</p>
+
+      </div>
     </div>
   );
 }
