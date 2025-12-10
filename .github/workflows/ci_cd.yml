@@ -24,19 +24,21 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i ssh_key root@139.59.45.219 << 'EOF'
             cd dream-app
 
+            git reset --hard
+            git clean -fd
             git pull
 
             # BACKEND
             cd backend
-            npm install
-            npm run build
+            /root/.nvm/versions/node/v24.11.1/bin/npm install
+            /root/.nvm/versions/node/v24.11.1/bin/npm run build
             DATABASE_URL='${{ secrets.DATABASE_URL }}' \
             JWT_SECRET='${{ secrets.JWT_SECRET }}' \
-            pm2 restart dream-backend
+            /root/.nvm/versions/node/v24.11.1/bin/pm2 restart dream-backend
 
             # FRONTEND
             cd ../frontend
-            npm install
-            npm run build
-            pm2 restart dream-frontend
+            /root/.nvm/versions/node/v24.11.1/bin/npm install
+            /root/.nvm/versions/node/v24.11.1/bin/npm run build
+            /root/.nvm/versions/node/v24.11.1/bin/pm2 restart dream-frontend
           EOF
