@@ -24,4 +24,4 @@ jobs:
           context: .
           file: ./docker/Dockerfile.backend
           push: true
-          tags: dillax/user-app-backend:${{ github.sha }}
+          tags: dillax/dream-backend:${{ github.sha }}
