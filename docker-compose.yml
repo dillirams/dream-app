@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_PASSWORD=mypassword
+    volumes:
+      - dream-volume:/var/lib/postgresql/data
+
+  
+  dream-backend:
+   build:
+    context: ./
+    dockerfile: docker/Dockerfile.backend
+   environment:
+      - DATABASE_URL=postgresql://postgres:mypassword@postgres:5432/postgres
+      - JWT_SECRET=fsdakljewj
+   ports:
+     - "3000:3000"
+   depends_on:
+   - postgres
+   command: >
+    sh -c "npx prisma migrate dev &&
+           npm run start"
+
+  dream-frontend:
+   build:
+    context: ./
+    dockerfile: docker/Dockerfile.frontend
+   ports:
+     - "5173:5173"
+
+volumes:
+    dream-volume:
+    

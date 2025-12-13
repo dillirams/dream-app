@@ -16,7 +16,7 @@ export function Signup() {
     const name = nameRef.current.value;
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
-    const res = await axios.post("https://dream.dillaxadhi.com/api/user/signup", {
+    const res = await axios.post("http://localhost:3000/user/signup", {
       name,
       email,
       password
