@@ -24,3 +24,24 @@ jobs:
           file: ./docker/Dockerfile.frontend
           push: true
           tags: dillax/dream-frontend:${{ github.sha }}
+          
+      - name: Deploy Frontend
+        run: |
+          echo "${{ secrets.SSH_KEY }}" > ~/ssh_key
+          chmod 600 ~/ssh_key
+
+          ssh -o StrictHostKeyChecking=no -i ~/ssh_key root@139.59.84.87 \
+            IMAGE="dillax/dream-frontend:${GITHUB_SHA}" \
+            CONTAINER="dream-frontend" \
+            << 'EOF'
+
+            docker rm -f "$CONTAINER" || true
+            docker pull "$IMAGE"
+
+            docker run -d \
+              --name "$CONTAINER" \
+              -p 80:80 \
+              -p 443:443 \
+              "$IMAGE"
+
+          EOF
