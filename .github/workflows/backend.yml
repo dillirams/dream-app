@@ -35,7 +35,7 @@ jobs:
               IMAGE=dillax/dream-backend:${GITHUB_SHA}
               CONTAINER=dream-backend
               sudo docker stop $CONTAINER || true
-              sudo docker rm -f $CONTAINER || true
+              sudo docker kill $CONTAINER || true
               
               sudo docker run --name $CONTAINER --network dream-network -e DATABASE_URL="${{ secrets.DATABASE_URL }}" -e JWT_SECRET="${{ secrets.JWT_SECRET}}" -d -p 3000:3000 \$IMAGE
             EOF
