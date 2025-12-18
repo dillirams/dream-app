@@ -30,8 +30,7 @@ jobs:
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
-          IMAGE: dillax/dream-backend:${{ github.sha }}
-          CONTAINER: dream-backend
+          
 
         run: |
           echo "${{ secrets.SSH_KEY }}" > ~/ssh_key
@@ -39,6 +38,9 @@ jobs:
 
           ssh -o StrictHostKeyChecking=no -i ~/ssh_key root@139.59.84.87 << 'EOF'
             set -e
+
+          IMAGE: dillax/dream-backend:${{ github.sha }}
+          CONTAINER: dream-backend
 
             echo "Deploying $IMAGE"
 
