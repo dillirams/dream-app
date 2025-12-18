@@ -40,8 +40,8 @@ jobs:
 
             docker run -d \
               --name "$CONTAINER" \
-              -p 80:80 \
-              -p 443:443 \
+              -p 127.0.0.1:3001:80 \
+              -p 127.0.0.1:3001:443 \
               "$IMAGE"
 
           EOF

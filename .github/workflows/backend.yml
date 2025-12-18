@@ -55,7 +55,7 @@ jobs:
               --network dream-network \
               -e DATABASE_URL="$DATABASE_URL" \
               -e JWT_SECRET="$JWT_SECRET" \
-              -p 3000:3000 \
+              -p 127.0.0.1:3000:3000 \
               "$IMAGE"
 
           EOF
