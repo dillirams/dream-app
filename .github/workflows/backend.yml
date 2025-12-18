@@ -25,3 +25,16 @@ jobs:
           file: ./docker/Dockerfile.backend
           push: true
           tags: dillax/dream-backend:${{ github.sha }}
+
+      - name: Deploy to the Vm
+        run: |
+            echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/ssh_key
+            chmod 600 ~/ssh_key
+            ssh -o StrictHostKeyChecking=no -i ~/ssh_key root@139.59.84.87<< EOF
+              set -e
+              IMAGE=dillax/dream-backend:${GITHUB_SHA}
+              sudo docker stop dream-backend || true
+              sudo docker kill dream-backend || true
+              
+              sudo docker run --network dream-network -e DATABASE_URL=${{ secrets.DATABASE_URL }} -e JWT_SECRET=${{ secrets.JWT_SECRET}} -d -p 3000:3000 \$IMAGE
+            EOF
