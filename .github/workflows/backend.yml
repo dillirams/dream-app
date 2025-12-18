@@ -26,16 +26,34 @@ jobs:
           push: true
           tags: dillax/dream-backend:${{ github.sha }}
 
-      - name: Deploy to the Vm
+      - name: Deploy to the VM
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          IMAGE: dillax/dream-backend:${{ github.sha }}
+          CONTAINER: dream-backend
+
         run: |
-            echo "${{ secrets.SSH_KEY }}" > ~/ssh_key
-            chmod 600 ~/ssh_key
-            ssh -o StrictHostKeyChecking=no -i ~/ssh_key root@139.59.84.87<< EOF
-              set -e
-              IMAGE=dillax/dream-backend:${GITHUB_SHA}
-              CONTAINER=dream-backend
-              sudo docker stop $CONTAINER || true
-              sudo docker kill $CONTAINER || true
-              
-              sudo docker run --name $CONTAINER --network dream-network -e DATABASE_URL="${{ secrets.DATABASE_URL }}" -e JWT_SECRET="${{ secrets.JWT_SECRET}}" -d -p 3000:3000 \$IMAGE
-            EOF
+          echo "${{ secrets.SSH_KEY }}" > ~/ssh_key
+          chmod 600 ~/ssh_key
+
+          ssh -o StrictHostKeyChecking=no -i ~/ssh_key root@139.59.84.87 << 'EOF'
+            set -e
+
+            echo "Deploying $IMAGE"
+
+            
+            docker rm -f "$CONTAINER" || true
+
+            
+            docker pull "$IMAGE"
+
+           
+            docker run -d \
+              --name "$CONTAINER" \
+              --network dream-network \
+              -e DATABASE_URL="$DATABASE_URL" \
+              -e JWT_SECRET="$JWT_SECRET" \
+              -p 3000:3000 \
+              "$IMAGE"
+          EOF
