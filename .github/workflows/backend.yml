@@ -33,8 +33,9 @@ jobs:
             ssh -o StrictHostKeyChecking=no -i ~/ssh_key root@139.59.84.87<< EOF
               set -e
               IMAGE=dillax/dream-backend:${GITHUB_SHA}
-              sudo docker stop dream-backend || true
-              sudo docker kill dream-backend || true
+              CONTAINER=dream-backend
+              sudo docker stop $CONTAINER || true
+              sudo docker rm -f $CONTAINER || true
               
-              sudo docker run --network dream-network -e DATABASE_URL=${{ secrets.DATABASE_URL }} -e JWT_SECRET=${{ secrets.JWT_SECRET}} -d -p 3000:3000 \$IMAGE
+              sudo docker run --name $CONTAINER --network dream-network -e DATABASE_URL="${{ secrets.DATABASE_URL }}" -e JWT_SECRET="${{ secrets.JWT_SECRET}}" -d -p 3000:3000 \$IMAGE
             EOF
