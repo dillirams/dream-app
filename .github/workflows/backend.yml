@@ -27,30 +27,29 @@ jobs:
           tags: dillax/dream-backend:${{ github.sha }}
 
       - name: Deploy to the VM
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          JWT_SECRET: ${{ secrets.JWT_SECRET }}
-          
-
         run: |
           echo "${{ secrets.SSH_KEY }}" > ~/ssh_key
           chmod 600 ~/ssh_key
 
-          ssh -o StrictHostKeyChecking=no -i ~/ssh_key root@139.59.84.87 << 'EOF'
+          ssh -o StrictHostKeyChecking=no -i ~/ssh_key root@139.59.84.87 \
+            IMAGE="dillax/dream-backend:${GITHUB_SHA}" \
+            CONTAINER="dream-backend" \
+            DATABASE_URL="${{ secrets.DATABASE_URL }}" \
+            JWT_SECRET="${{ secrets.JWT_SECRET }}" \
+            << 'EOF'
+
             set -e
 
-          IMAGE: dillax/dream-backend:${{ github.sha }}
-          CONTAINER: dream-backend
+            echo "Deploying image: $IMAGE"
+            echo "Container name: $CONTAINER"
 
-            echo "Deploying $IMAGE"
-
-            
+            # Stop & remove old container
             docker rm -f "$CONTAINER" || true
 
-            
+            # Pull new image
             docker pull "$IMAGE"
 
-           
+            # Run new container
             docker run -d \
               --name "$CONTAINER" \
               --network dream-network \
@@ -58,4 +57,5 @@ jobs:
               -e JWT_SECRET="$JWT_SECRET" \
               -p 3000:3000 \
               "$IMAGE"
+
           EOF
