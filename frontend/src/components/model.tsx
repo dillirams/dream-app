@@ -2,6 +2,7 @@ import { useRef } from "react"
 import { Button } from "./button"
 import axios from "axios";
 import { useDreamStore } from "./create";
+const API=import.meta.env.VITE_API_URL;
 
 export function Model() {
   const { setModel } = useDreamStore();
@@ -14,7 +15,7 @@ export function Model() {
     const title = titleRef.current.value;
     const content = contentRef.current.value;
     
-    const res = await axios.post('https://dream.dillaxadhi.com/api/user/post', {
+    const res = await axios.post(`${API}/api/user/post`, {
       title: title,
       content: content
     }, {

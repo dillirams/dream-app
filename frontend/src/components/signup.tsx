@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { Button } from "./button";
 import axios from 'axios'
 import { useNavigate } from "react-router-dom";
+const API=import.meta.env.VITE_API_URL;
 
 export function Signup() {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ export function Signup() {
     const name = nameRef.current.value;
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
-    const res = await axios.post("https://dream.dillaxadhi.com/api/user/signup", {
+    const res = await axios.post(`${API}/api/user/signup`, {
       name,
       email,
       password
