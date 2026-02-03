@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { Button } from "./button";
 import axios from 'axios'
 import { useNavigate } from "react-router-dom";
-const API=import.meta.env.VITE_API_URL;
+
 
 export function SignIn() {
   const navigate = useNavigate();
@@ -14,7 +14,7 @@ export function SignIn() {
   async function signin() {
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
-    const res = await axios.post(`${API}/api/user/signin`, {
+    const res = await axios.post(`/api/user/signin`, {
       email,
       password,
     }, {

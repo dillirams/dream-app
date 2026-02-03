@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-const API=import.meta.env.VITE_API_URL;
+
 
 
 export function useContent(){
@@ -8,7 +8,7 @@ export function useContent(){
 
 
     async function getDream() {
-        const res= await axios.get(`${API}/api/user/getDream`,{
+        const res= await axios.get(`/api/user/getDream`,{
             withCredentials:true
         })
 
