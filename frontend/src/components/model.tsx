@@ -24,7 +24,7 @@ export function Model() {
     
     console.log(res.data.message)
     setModel(false)
-    window.location.reload();
+    
   }
   
   return (
