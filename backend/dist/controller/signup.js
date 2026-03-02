@@ -1,6 +1,7 @@
 import { requestBody } from '../types/type.js';
 import { prisma } from '../lib/prisma.js';
 import bcrypt from 'bcrypt';
+import { error } from 'node:console';
 export async function signup(req, res) {
     const inputData = requestBody.safeParse(req.body);
     console.log(inputData);
@@ -29,6 +30,7 @@ export async function signup(req, res) {
     catch (e) {
         res.status(404).json({
             message: "something went wrong",
+            error: e
         });
         console.log(e);
         return;

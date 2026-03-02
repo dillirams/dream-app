@@ -14,7 +14,7 @@ export function SignIn() {
   async function signin() {
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
-    const res = await axios.post(`/api/user/signin`, {
+    const res = await axios.post(`http://localhost:3000/api/user/signin`, {
       email,
       password,
     }, {

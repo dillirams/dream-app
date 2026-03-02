@@ -1,5 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "./button";
+import { Notification } from "./notification";
+import { useEffect } from "react";
+import { listenNotifications } from "../firebase/foregroundNotification";
 
 export function Home() {
   // Pass your navigate function from react-router-dom
@@ -8,6 +11,10 @@ export function Home() {
   function onClick() {
     navigate('/signup')
   }
+
+  useEffect(()=>{
+    listenNotifications()
+  },[])
   
   return (
     <div className="min-h-screen bg-white relative overflow-hidden">
@@ -32,6 +39,7 @@ export function Home() {
         >
           Sign In
         </button>
+        <Notification/>
       </nav>
       
       {/* Hero Section */}

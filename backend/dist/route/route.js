@@ -4,9 +4,11 @@ import { signin } from "../controller/signin.js";
 import { middleware } from "../middleware/middleware.js";
 import { postDream } from "../controller/post.js";
 import { getDream } from "../controller/get.js";
+import { testNotification } from "../controller/notification.js";
 export const appRouter = Router();
 appRouter.post('/signup', signup);
 appRouter.post('/signin', signin);
 appRouter.post('/post', middleware, postDream);
 appRouter.get('/getdream', middleware, getDream);
+appRouter.post('/notify', testNotification);
 //# sourceMappingURL=route.js.map

@@ -8,7 +8,7 @@ export function useContent(){
 
 
     async function getDream() {
-        const res= await axios.get(`/api/user/getDream`,{
+        const res= await axios.get(`http://localhost:3000/api/user/getDream`,{
             withCredentials:true
         })
 

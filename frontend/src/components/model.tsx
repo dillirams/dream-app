@@ -15,7 +15,7 @@ export function Model() {
     const title = titleRef.current.value;
     const content = contentRef.current.value;
     
-    const res = await axios.post(`/api/user/post`, {
+    const res = await axios.post(`http://localhost:3000/api/user/post`, {
       title: title,
       content: content
     }, {
